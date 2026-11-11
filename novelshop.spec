@@ -29,11 +29,13 @@ Notes on what gets bundled:
   who wants the dictionary needs a Python with `wn` and its
   data, or the data bundled separately.
 - The libraries' own data files ARE bundled: pyspellchecker's
-  English dictionary and python-docx's default template are
-  collected with collect_data_files. PyInstaller does not find
-  them on its own (they are loaded at runtime with
-  pkgutil.get_data), and without them the frozen app crashes
-  on startup (spellchecker) or on export (python-docx).
+  English dictionary, python-docx's default template, and
+  Piper's espeak-ng phoneme data are collected with
+  collect_data_files. PyInstaller does not find them on its own
+  (they are loaded at runtime with pkgutil.get_data or a path
+  relative to the package), and without them the frozen app
+  crashes on startup (spellchecker), on export (python-docx),
+  or when Piper reads aloud (piper — a native segfault).
 - UPX is left off: compressing the Qt libraries would stop a
   user swapping them, which the LGPL relink rule relies on.
 """
@@ -53,13 +55,19 @@ datas = [
     ("novel_shop/close.png", "novel_shop"),
 ]
 # Package data files PyInstaller does not find on its own: the
-# libraries load them at runtime with pkgutil.get_data, which the
-# static analysis cannot see. Without them the frozen app crashes
-# on startup (spellchecker) or on export (python-docx).
+# libraries load them at runtime with pkgutil.get_data or a path
+# relative to the package, which the static analysis cannot see.
+# Without them the frozen app crashes on startup (spellchecker),
+# on export (python-docx), or when Piper reads aloud (piper).
 # - spellchecker: the English dictionary (resources/en.json.gz).
 # - docx: the default document template (templates/default.docx).
+# - piper: the espeak-ng phoneme data (espeak-ng-data/, ~20MB).
+#   Piper's native espeak bridge is initialized with that
+#   directory; without it, synthesizing crashes the exe outright
+#   (a native segfault, not a Python exception).
 datas += collect_data_files("spellchecker")
 datas += collect_data_files("docx")
+datas += collect_data_files("piper")
 
 a = Analysis(
     ["main.py"],
