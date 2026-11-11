@@ -27,6 +27,7 @@ module.
 
 from datetime import datetime
 from pathlib import Path
+import sys
 
 from PySide6.QtCore import QEvent, QStandardPaths, Qt, QTimer
 from PySide6.QtGui import (
@@ -46,6 +47,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QMainWindow,
     QMenu,
+    QMenuBar,
     QMessageBox,
     QPushButton,
     QSplitter,
@@ -113,6 +115,15 @@ from novel_shop.wordcount import count_words
 
 AUTOSAVE_DELAY_MS = 2000
 
+# Linux gets a native window frame. The frameless custom chrome
+# (DraggableMenuBar, caption buttons, edge resizer) does not play
+# well with Linux window managers: the menu bar does not come up
+# and the window controls do not respond, so the user cannot open
+# a folder or use the menus at all. A standard title bar and menu
+# bar work through the OS. Windows and macOS keep the frameless
+# look.
+IS_LINUX = sys.platform.startswith("linux")
+
 
 class MainWindow(QMainWindow):
     def __init__(self, session_path: str | None = None):
@@ -120,7 +131,10 @@ class MainWindow(QMainWindow):
         # Frameless: the title bar is drawn by Qt (see frameless.py)
         # so it matches the theme instead of sticking out as the
         # native Windows bar. The flag has to be set before show().
-        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        # Linux skips it: the frameless chrome does not work with
+        # Linux window managers, so Linux uses a native frame.
+        if not IS_LINUX:
+            self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
         # A frameless window has no OS minimum; keep it resizable
         # to something usable, and give the edge resizer a floor.
         self.setMinimumSize(500, 350)
@@ -202,12 +216,16 @@ class MainWindow(QMainWindow):
         # The window's corners are rounded (both Novelshop themes).
         # A translucent window lets the style sheet draw them smooth,
         # with anti-aliasing, instead of the pixelated edges a region
-        # mask gives.
+        # mask gives. Linux uses a native frame, so no translucency
+        # there — but the radius stays 2px in the style sheet either
+        # way, so the applied sheet always matches the theme
+        # constants the tests compare against.
         self._corner_radius = DEFAULT_CORNER_RADIUS
         _theme = self._preferences.get("theme", THEME_LIGHT)
-        self.setAttribute(
-            Qt.WidgetAttribute.WA_TranslucentBackground, True
-        )
+        if not IS_LINUX:
+            self.setAttribute(
+                Qt.WidgetAttribute.WA_TranslucentBackground, True
+            )
         apply_theme(_theme, self._corner_radius)
         self._spell_checker = load_spell_checker()
         self._piper_read_aloud = PiperReadAloud(
@@ -217,15 +235,19 @@ class MainWindow(QMainWindow):
         # The menu bar is the window's top bar, like Photoshop's:
         # taller than usual, carrying the minimize/maximize/close
         # buttons on its right. It is created before the menus so
-        # they are built into it.
-        self._menu_bar = DraggableMenuBar(self)
+        # they are built into it. On Linux the menu bar is a plain
+        # one under the native title bar, so the menus work.
+        self._menu_bar = (
+            QMenuBar(self) if IS_LINUX else DraggableMenuBar(self)
+        )
         self.setMenuBar(self._menu_bar)
         self._build_menus()
         # The menu bar's menus, so their corners render rounded.
         for _menu in self._menu_bar.findChildren(QMenu):
             style_popup_menu(_menu)
-        # The edge resizer brings the resize handles back.
-        self._edge_resizer = EdgeResizer(self)
+        # The edge resizer brings the resize handles back. Linux
+        # has a native frame, so it resizes through the OS.
+        self._edge_resizer = None if IS_LINUX else EdgeResizer(self)
         self._format_toolbar = FormatToolbar()
         self.addToolBar(self._format_toolbar)
         self._format_toolbar.font_changed.connect(self._on_editor_font_changed)
@@ -2240,6 +2262,10 @@ class MainWindow(QMainWindow):
 
     def paintEvent(self, event) -> None:
         super().paintEvent(event)
+        # Linux uses a native frame, so the OS draws the window;
+        # there is no rounded rect to paint here.
+        if IS_LINUX:
+            return
         # With a translucent window the style sheet's background
         # does not paint, so the window would be see-through wherever
         # a child (the title bar, the empty tab-bar area) does not
@@ -2363,8 +2389,10 @@ class MainWindow(QMainWindow):
         super().changeEvent(event)
         # Maximized or restored from outside the menu bar (keyboard,
         # taskbar, drag to the top): the middle button has to follow.
+        # Only the frameless menu bar has that button; a plain
+        # QMenuBar (Linux) does not.
         if event.type() == QEvent.Type.WindowStateChange:
-            if hasattr(self, "_menu_bar"):
+            if hasattr(self._menu_bar, "update_maximize_button"):
                 self._menu_bar.update_maximize_button()
             # Only a visible window re-applies the theme: a hidden
             # one (an earlier window, closed but not destroyed) would
@@ -2373,7 +2401,10 @@ class MainWindow(QMainWindow):
             if not self.isVisible():
                 return
             # Maximizing squares the corners off (the window fills
-            # the screen), restoring rounds them again.
+            # the screen), restoring rounds them again. Linux has a
+            # native frame with square corners, so nothing to do.
+            if IS_LINUX:
+                return
             self._corner_radius = (
                 0 if self.isMaximized() else DEFAULT_CORNER_RADIUS
             )
