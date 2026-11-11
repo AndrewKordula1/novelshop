@@ -36,12 +36,20 @@ _TAG_RE = re.compile(r"</?u>")
 
 
 def load_spell_checker():
-    """A SpellChecker, or None when pyspellchecker is not installed."""
+    """A SpellChecker, or None when pyspellchecker is not installed
+    or its dictionary cannot be loaded."""
     try:
         from spellchecker import SpellChecker
     except ImportError:
         return None
-    return SpellChecker()
+    try:
+        return SpellChecker()
+    except (ValueError, OSError):
+        # The dictionary data file is missing (a frozen build that
+        # did not bundle it raises ValueError: the language does
+        # not exist). Spellcheck stays off instead of crashing
+        # the app at startup.
+        return None
 
 
 def is_misspelled(word: str, checker, known_words: set[str]) -> bool:
