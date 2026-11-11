@@ -19,7 +19,7 @@
 #
 """Novelshop package."""
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 from novel_shop.main_window import MainWindow
 
