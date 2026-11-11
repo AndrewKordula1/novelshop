@@ -583,6 +583,35 @@ One concern per file, small modules, data piped between them:
   close, dirty markers.
 - `novel_shop/main_window.py` — layout, menus, autosave, prompts.
 
+## Third-party libraries
+
+Novelshop is built on these open-source libraries. The app itself is
+LGPLv2.1-or-later; each of these keeps its own licence:
+
+- [PySide6](https://github.com/qtproject/pyside-pyside-setup) — the
+  whole user interface: the Qt framework's Python bindings. LGPL-3.0
+  (also available under GPL).
+- [python-docx](https://github.com/python-openxml/python-docx) — writes
+  the DOCX export. MIT.
+- [ebooklib](https://github.com/aerkalov/ebooklib) — writes the EPUB
+  export. AGPL-3.0.
+- [pyspellchecker](https://github.com/barrust/pyspellchecker) — the
+  spellchecker: flags misspelled words and offers suggestions. MIT.
+- [wn](https://github.com/goodmami/wn) — the dictionary and thesaurus:
+  WordNet lookups (definitions, synonyms, antonyms) and the reverse
+  dictionary. MIT.
+- [piper-tts](https://github.com/OHF-Voice/piper1-gpl) — the Piper
+  neural read-aloud voice. GPL-3.0.
+- [onnxruntime](https://github.com/microsoft/onnxruntime) — runs the
+  Piper voice model; it comes in through piper-tts. MIT.
+
+The dictionary's word data is
+[Open English WordNet](https://github.com/globalwordnet/english-wordnet)
+(CC-BY 4.0), downloaded separately with `python -m wn download
+ewn:2020`. The "Ns" logo lettering is
+[Montserrat](https://github.com/JulietaUla/Montserrat) Bold
+(SIL Open Font License), used at build time only.
+
 ## License
 
 Novelshop is free software, licensed under the **GNU Lesser General
