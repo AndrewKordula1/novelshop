@@ -28,12 +28,20 @@ Notes on what gets bundled:
   greys the dictionary out when it is missing. A frozen user
   who wants the dictionary needs a Python with `wn` and its
   data, or the data bundled separately.
+- The libraries' own data files ARE bundled: pyspellchecker's
+  English dictionary and python-docx's default template are
+  collected with collect_data_files. PyInstaller does not find
+  them on its own (they are loaded at runtime with
+  pkgutil.get_data), and without them the frozen app crashes
+  on startup (spellchecker) or on export (python-docx).
 - UPX is left off: compressing the Qt libraries would stop a
   user swapping them, which the LGPL relink rule relies on.
 """
 
 import sys
 from pathlib import Path
+
+from PyInstaller.utils.hooks import collect_data_files
 
 project_root = Path(SPECPATH)
 
@@ -44,6 +52,14 @@ datas = [
     ("novel_shop/down_arrow.png", "novel_shop"),
     ("novel_shop/close.png", "novel_shop"),
 ]
+# Package data files PyInstaller does not find on its own: the
+# libraries load them at runtime with pkgutil.get_data, which the
+# static analysis cannot see. Without them the frozen app crashes
+# on startup (spellchecker) or on export (python-docx).
+# - spellchecker: the English dictionary (resources/en.json.gz).
+# - docx: the default document template (templates/default.docx).
+datas += collect_data_files("spellchecker")
+datas += collect_data_files("docx")
 
 a = Analysis(
     ["main.py"],
