@@ -27,11 +27,7 @@ it), so this is just the voice itself:
    Put them together in a folder (they are about 63MB).
 2. In the app: View → Read Aloud Voice → Piper (neural), then
    Choose Piper voice file... and pick the `.onnx`. The app remembers
-   the voice. A note on licences: piper-tts is GPL-3.0 open source,
-   and the lessac voice data is under the Blizzard 2013 (CSTR)
-   licence — neither affects reading your own words aloud for
-   yourself. It would only matter if you ever distributed the app
-   with Piper in it.
+   the voice.
 
 ## What it does
 
@@ -164,11 +160,11 @@ it), so this is just the voice itself:
   it survives a reload and reaches the export.
 - **Editing moves** — Ctrl+D duplicates the current paragraph below
   itself; Alt+Up and Alt+Down move the current paragraph up or down,
-  swapping it with its neighbour (the cursor follows the moved
+  swapping it with its neighbor (the cursor follows the moved
   paragraph). Format → Change Case turns a selection — or the word under
   the cursor — into UPPERCASE, lowercase, Title Case, or Sentence
   case. Ctrl+Shift+V pastes the clipboard as plain text, without the
-  fonts and colours a paste from the web would bring in.
+  fonts and colors a paste from the web would bring in.
 - **Regex find** — the find bar's `.*` toggle treats the find text as
   a regular expression: find ` {2,}` for double spaces, `\d{3}-\d{4}`
   for phone numbers, and Replace All takes `\1`, `\2` backreferences
@@ -404,7 +400,7 @@ it), so this is just the voice itself:
   its items (File, Edit, Format, View...), and the items in the
   drop-down menus get the rounded bubble highlight on hover, and
   every button and input in the app is rounded the same way. The
-  menu items sit vertically centred in the bar (they were glued to
+  menu items sit vertically centered in the bar (they were glued to
   the top until the item padding was made tall enough to fill it),
   and the menus themselves have no border, just rounded corners.
   The font picker
@@ -447,7 +443,7 @@ it), so this is just the voice itself:
   Mode the menu bar hides, so the buttons hide with it — Alt+F4
   still closes, and Esc or F11 brings the bar back.
 - **About** — Help → About Novelshop... shows the app's name,
-  its version (1.0.0), its creator (Andrew Kordula), and its
+  its version (1.0.1), its creator (Andrew Kordula), and its
   license (GNU Lesser General Public License v2.1 or later), with
   a View License button that shows the full license text.
 
@@ -460,7 +456,7 @@ One concern per file, small modules, data piped between them:
   the app's name, version, creator, and license, with a
   View License button that reads the LICENSE file in the project
   folder. The version lives in `novel_shop/__init__.py`
-  (`__version__ = "1.0.0"`).
+  (`__version__ = "1.0.1"`).
 - `novel_shop/icon.png` / `novel_shop/icon.ico` — the "Ns" tile: a
   white rounded square with black letters in Montserrat Bold
   (SIL Open Font License, open source), Adobe-style capital + lowercase.
@@ -476,7 +472,7 @@ One concern per file, small modules, data piped between them:
 - `novel_shop/snapshots.py` — dated backups of a document.
 - `novel_shop/snapshot_dialog.py` — the snapshot browser dialog.
 - `novel_shop/diff.py` — the snapshot diff: a unified diff as a
-  coloured page, and the dialog that shows it.
+  colored page, and the dialog that shows it.
 - `novel_shop/quick_open.py` — the Quick Open picker: the folder's
   files, filtered as you type.
 - `novel_shop/read_aloud.py` — the system-voice read aloud: Qt's
@@ -564,9 +560,9 @@ One concern per file, small modules, data piped between them:
   white editor, light grey chrome, near-black text, same blue
   accent), built from one parameterized sheet. `apply_theme` puts
   the sheet on the whole application, and `theme_background`
-  gives the window's fill colour for the rounded corners. It also
+  gives the window's fill color for the rounded corners. It also
   holds the caption-button rules and `style_popup_menu`.
-- `novel_shop/frameless.py` — the frameless window behaviour:
+- `novel_shop/frameless.py` — the frameless window behavior:
   `CaptionButton` (the minimize / maximize / restore / close
   buttons, glyphs painted by hand), `DraggableMenuBar` (the menu
   bar is the top bar, 38px like PhotoCraft's, carrying the caption
@@ -586,7 +582,7 @@ One concern per file, small modules, data piped between them:
 ## Third-party libraries
 
 Novelshop is built on these open-source libraries. The app itself is
-LGPLv2.1-or-later; each of these keeps its own licence:
+LGPLv2.1-or-later; each of these keeps its own license:
 
 - [PySide6](https://github.com/qtproject/pyside-pyside-setup) — the
   whole user interface: the Qt framework's Python bindings. LGPL-3.0
