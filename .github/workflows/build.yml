@@ -1,0 +1,96 @@
+# Build Novelshop for Linux, macOS, and Windows, and attach the
+# builds to a GitHub Release.
+#
+# How to cut a release:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+# That starts the build job on all three systems. When the builds
+# finish, the release job creates a GitHub Release from the tag
+# with Novelshop-linux.zip, Novelshop-macos.zip, and
+# Novelshop-windows.zip attached.
+#
+# You can also run the build job on demand (Actions → Build →
+# Run workflow) without cutting a release: the three zips show
+# up as artifacts on that run instead.
+#
+# Notes:
+# - Linux builds on ubuntu-22.04 (not the newest) so the binary
+#   runs on more distributions — a binary built against a newer
+#   glibc will not run on an older one.
+# - The build installs requirements.txt, which includes
+#   piper-tts. PyInstaller bundles it into the executable (the
+#   app imports it in a try/except, which PyInstaller follows).
+#   That is fine now that the app is LGPLv2.1-or-later; the
+#   combined executable is distributed under GPLv3 terms. The
+#   voice files (.onnx) are NOT bundled — the user downloads
+#   one separately and picks it in the app.
+# - The builds are one-folder (onedir) from novelshop.spec: the
+#   Qt libraries stay as separate files next to the executable,
+#   which is what the LGPL relink rule wants.
+# - macOS and Windows builds are unsigned, so macOS Gatekeeper
+#   and Windows SmartScreen will warn on first run. Removing
+#   those warnings needs a paid signing certificate.
+
+name: Build
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.label }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            label: linux
+          - os: macos-latest
+            label: macos
+          - os: windows-latest
+            label: windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt pyinstaller
+
+      - name: Build with PyInstaller
+        run: pyinstaller novelshop.spec
+
+      - name: Zip the build
+        run: python -c "import shutil; shutil.make_archive('Novelshop-${{ matrix.label }}', 'zip', 'dist/Novelshop')"
+
+      - name: Upload the build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Novelshop-${{ matrix.label }}
+          path: Novelshop-${{ matrix.label }}.zip
+
+  release:
+    name: Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download the builds
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.zip
