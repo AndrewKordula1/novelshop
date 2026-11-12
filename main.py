@@ -24,9 +24,8 @@ real work lives in the novel_shop package, one concern per file.
 
 By default no style is forced: Qt uses the platform's native style,
 so the app looks like a Windows app on Windows, a Mac app on a Mac,
-and follows the system light/dark setting. View → Theme → Adobe
-Dark switches to a dark theme in the style of Photoshop and the
-other Creative Cloud apps, remembered between runs.
+and follows the system light/dark setting. View → Theme →
+Novelshop Dark switches to a dark theme, remembered between runs.
 """
 
 import sys

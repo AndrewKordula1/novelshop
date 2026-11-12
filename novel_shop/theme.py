@@ -20,15 +20,14 @@
 """Themes: the app's look, as a Qt style sheet.
 
 Two themes, both Novelshop's own — no system theme. "Novelshop
-Dark" is the near-black theme matched to PhotoCraft (the ArtCraft
-team's design app, measured from its home screen): flat near-black
-panels, near-white text, and PhotoCraft's blue (#1a73e8) as the
-accent for selections, the active tab and primary buttons. The
-editor (the writing surface) is the near-black content background,
-so the look holds while you write — including in Focus Mode, where
-the chrome is hidden and only the editor shows. "Novelshop Light"
-is the same design inverted: a white writing surface, light grey
-chrome, near-black text, and the same blue accent.
+Dark" is the near-black theme: flat near-black panels, near-white
+text, and a solid blue (#1a73e8) accent for selections, the active
+tab and primary buttons. The editor (the writing surface) is the
+near-black content background, so the look holds while you write —
+including in Focus Mode, where the chrome is hidden and only the
+editor shows. "Novelshop Light" is the same design inverted: a
+white writing surface, light grey chrome, near-black text, and the
+same blue accent.
 
 It is one style sheet, applied to the whole application. The
 editor's font and the entity highlight colors are separate
@@ -49,9 +48,8 @@ THEME_NAMES = {
     THEME_LIGHT: "Novelshop Light",
 }
 
-# PhotoCraft's palette, measured from its home screen (image-21.png):
-# the main background is near-black, panels a touch lighter, and the
-# accent is PhotoCraft's solid blue (the "New file" button).
+# Dark palette: the main background is near-black, panels a touch
+# lighter, and the accent is a solid blue.
 _DARK = {
     "bg": "#0e0e0f",            # window background, editor, sidebar base
     "chrome": "#141415",        # menu bar, status bar, tab bar, tree
@@ -62,7 +60,7 @@ _DARK = {
     "text": "#e8e8ea",          # primary text, near-white
     "text_muted": "#9e9ea6",    # secondary text, muted grey
     "text_disabled": "#6e6e73",
-    "accent": "#1a73e8",        # PhotoCraft blue: selections, active tab, primary buttons
+    "accent": "#1a73e8",        # blue accent: selections, active tab, primary buttons
     "accent_hover": "#2b7de9",
     "accent_pressed": "#1765cc",
     "separator": "#262628",     # menu separators, tab pane and list borders

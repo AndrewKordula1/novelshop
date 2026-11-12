@@ -745,7 +745,7 @@ class MainWindow(QMainWindow):
             self._preferences.get("theme", THEME_LIGHT) == THEME_DARK
         )
         self._dark_theme_action.setToolTip(
-            "Dark, in the style of Photoshop and the Creative Cloud apps"
+            "Dark, with a near-black background and a blue accent"
         )
         self._dark_theme_action.triggered.connect(
             lambda: self._set_theme(THEME_DARK)

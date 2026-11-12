@@ -388,25 +388,23 @@ it), so this is just the voice itself:
   defaulting to the file's name. A file that was never saved has
   nothing on disk to export, so it asks to be saved first.
 - **Novelshop themes** — View → Theme offers two of the app's own:
-  **Novelshop Dark** makes the whole app look like PhotoCraft: flat
-  near-black panels (#0e0e0f background, #141415 chrome, #1a1a1c
-  cards), near-white text, and PhotoCraft's blue (#1a73e8) for
-  selections, the active tab, and primary buttons, and the editor
-  near-black like PhotoCraft's canvas, so the look holds while you
-  write, including in Focus Mode. **Novelshop Light** is the same
-  design inverted: a white writing surface, light grey chrome
-  (#f0f0f0), near-black text, and the same blue accent. The menu bar
-  is PhotoCraft's height (38px) with PhotoCraft's spacing between
-  its items (File, Edit, Format, View...), and the items in the
-  drop-down menus get the rounded bubble highlight on hover, and
+  **Novelshop Dark** is a flat dark theme: near-black panels
+  (#0e0e0f background, #141415 chrome, #1a1a1c cards), near-white
+  text, and a solid blue (#1a73e8) for selections, the active tab,
+  and primary buttons, and the editor is near-black too, so the
+  look holds while you write, including in Focus Mode.
+  **Novelshop Light** is the same design inverted: a white writing
+  surface, light grey chrome (#f0f0f0), near-black text, and the
+  same blue accent. The menu bar is 38px tall with matching spacing
+  between its items (File, Edit, Format, View...), and the items in
+  the drop-down menus get the rounded bubble highlight on hover, and
   every button and input in the app is rounded the same way. The
   menu items sit vertically centered in the bar (they were glued to
   the top until the item padding was made tall enough to fill it),
   and the menus themselves have no border, just rounded corners.
   The font picker
   shows a drop-down arrow, and the font size is readable. The choice
-  is remembered between runs (a saved "system" theme becomes Light,
-  a saved "adobe" becomes Dark). The editor's font and the entity
+  is remembered between runs (a saved "system" theme becomes Light). The editor's font and the entity
   highlight colors are separate preferences and are not touched by
   the theme. Polish: the frameless window gets a native drop shadow
   on Windows (CS_DROPSHADOW), the scrollbars are thin and rounded,
@@ -426,8 +424,7 @@ it), so this is just the voice itself:
   insert, split, merge, comments, bookmarks); File holds only
   file and project operations; Help holds only About.
 - **Menu bar as the top bar** — there is no separate title bar:
-  the menu bar is the top of the window, like PhotoCraft's, 38px
-  tall, and it carries the minimize, maximize, and close buttons
+  the menu bar is the top of the window, 38px tall, and it carries the minimize, maximize, and close buttons
   on its right. Drag its empty area to move the window,
   double-click it to maximize or restore, drag it to the top of
   the screen to maximize, and drag any edge or corner to resize.
@@ -458,10 +455,9 @@ One concern per file, small modules, data piped between them:
   folder. The version lives in `novel_shop/__init__.py`
   (`__version__ = "1.0.1"`).
 - `novel_shop/icon.png` / `novel_shop/icon.ico` — the "Ns" tile: a
-  white rounded square with black letters in Montserrat Bold
-  (SIL Open Font License, open source), Adobe-style capital + lowercase.
+  white rounded square with black capital + lowercase letters.
   The letters span ~84% of the tile's width at their natural
-  proportions, about 48% tall — the most Adobe-like of the fonts tried.
+  proportions, about 48% tall.
   The .ico holds 16, 32, 48, and 256px versions for the taskbar and
   title bar; main.py sets it on the app. If the app is ever packaged
   with PyInstaller, pass `--icon novel_shop/icon.ico` to use the same
@@ -555,7 +551,7 @@ One concern per file, small modules, data piped between them:
 - `novel_shop/typography.py` — smart quotes and dashes: which curly
   quote fits where, and the edits that fix existing text.
 - `novel_shop/theme.py` — the themes: "novelshop-dark" (a dark style
-  sheet matched to PhotoCraft's near-black palette and blue accent,
+  sheet with a near-black palette and blue accent,
   editor dark too) and "novelshop-light" (the same design inverted:
   white editor, light grey chrome, near-black text, same blue
   accent), built from one parameterized sheet. `apply_theme` puts
@@ -565,8 +561,7 @@ One concern per file, small modules, data piped between them:
 - `novel_shop/frameless.py` — the frameless window behavior:
   `CaptionButton` (the minimize / maximize / restore / close
   buttons, glyphs painted by hand), `DraggableMenuBar` (the menu
-  bar is the top bar, 38px like PhotoCraft's, carrying the caption
-  buttons; drag its empty area to move, double-click to maximize,
+  bar is the top bar, 38px tall, carrying the caption buttons; drag its empty area to move, double-click to maximize,
   drag to the top to maximize), `EdgeResizer` (an
   application-level event filter that brings the resize handles
   back for a frameless window).

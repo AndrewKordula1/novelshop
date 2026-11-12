@@ -140,15 +140,12 @@ def load_preferences(path: str | None = None) -> dict:
         prefs["focus_sentence"] = data["focus_sentence"]
     if isinstance(data.get("line_numbers"), bool):
         prefs["line_numbers"] = data["line_numbers"]
-    # Old theme names, migrated: "system" was replaced by Novelshop
-    # Light and "adobe" was renamed Novelshop Dark.
+    # Old theme name, migrated: "system" was replaced by Novelshop Light.
     saved_theme = data.get("theme")
     if saved_theme in ("novelshop-dark", "novelshop-light"):
         prefs["theme"] = saved_theme
     elif saved_theme == "system":
         prefs["theme"] = "novelshop-light"
-    elif saved_theme == "adobe":
-        prefs["theme"] = "novelshop-dark"
     if data.get("read_aloud_engine") in ("system", "piper"):
         prefs["read_aloud_engine"] = data["read_aloud_engine"]
     if isinstance(data.get("piper_voice_path"), str):
