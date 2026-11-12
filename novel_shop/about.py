@@ -2,20 +2,18 @@
 #
 # This file is part of Novelshop.
 #
-# Novelshop is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 2.1 of
-# the License, or (at your option) any later version.
+# Novelshop is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
 # Novelshop is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-# Lesser General Public License for more details.
+# General Public License for more details.
 #
-# You should have received a copy of the GNU Lesser General Public
-# License along with Novelshop; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
+# You should have received a copy of the GNU General Public License
+# along with Novelshop; if not, see <https://www.gnu.org/licenses/>.
 #
 """About dialog: the app's name, version, creator, and license.
 
@@ -42,7 +40,7 @@ from novel_shop.resources import resource_path
 
 APP_NAME = "Novelshop"
 APP_CREATOR = "Andrew Kordula"
-APP_LICENSE = "GNU Lesser General Public License v2.1 (or later)"
+APP_LICENSE = "GNU General Public License v3.0 (or later)"
 
 
 def license_path() -> Path:

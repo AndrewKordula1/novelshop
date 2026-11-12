@@ -2,8 +2,8 @@
 """PyInstaller build for Novelshop.
 
 One-folder (onedir) build: the Qt libraries stay as separate files
-next to the executable, which is what the LGPL asks for — a user
-can swap the Qt DLLs for a different build. Run with:
+next to the executable, so a user can swap the Qt DLLs for a
+different build. Run with:
 
     pyinstaller novelshop.spec
 
@@ -18,9 +18,9 @@ Notes on what gets bundled:
   when run from source.
 - piper-tts is in requirements.txt, so it is installed during the
   build and bundled into the executable (the app imports it in a
-  try/except, which PyInstaller follows). That is fine now that
-  the app is LGPLv2.1-or-later — the combined executable is
-  distributed under GPLv3 terms. The voice files (.onnx, ~63MB
+  try/except, which PyInstaller follows). That is fine: the app and
+  Piper are both GPLv3, so the combined executable is distributed
+  under GPLv3 terms. The voice files (.onnx, ~63MB
   each) are NOT bundled: the user still downloads one separately
   and picks it in the app, exactly as in the source install.
 - The WordNet data (for the dictionary) is NOT bundled either.
@@ -37,7 +37,7 @@ Notes on what gets bundled:
   crashes on startup (spellchecker), on export (python-docx),
   or when Piper reads aloud (piper — a native segfault).
 - UPX is left off: compressing the Qt libraries would stop a
-  user swapping them, which the LGPL relink rule relies on.
+  user swapping them for a different build.
 """
 
 import sys
