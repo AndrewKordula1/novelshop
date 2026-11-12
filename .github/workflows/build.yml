@@ -20,13 +20,13 @@
 # - The build installs requirements.txt, which includes
 #   piper-tts. PyInstaller bundles it into the executable (the
 #   app imports it in a try/except, which PyInstaller follows).
-#   That is fine now that the app is LGPLv2.1-or-later; the
+#   That is fine: the app and Piper are both GPLv3, so the
 #   combined executable is distributed under GPLv3 terms. The
 #   voice files (.onnx) are NOT bundled — the user downloads
 #   one separately and picks it in the app.
 # - The builds are one-folder (onedir) from novelshop.spec: the
 #   Qt libraries stay as separate files next to the executable,
-#   which is what the LGPL relink rule wants.
+#   so a user can swap them for a different build.
 # - macOS and Windows builds are unsigned, so macOS Gatekeeper
 #   and Windows SmartScreen will warn on first run. Removing
 #   those warnings needs a paid signing certificate.
