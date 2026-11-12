@@ -399,7 +399,7 @@ One concern per file, small modules, data piped between them:
   the app's name, version, creator, and license, with a
   View License button that reads the LICENSE file in the project
   folder. The version lives in `novel_shop/__init__.py`
-  (`__version__ = "1.0.1"`).
+  (`__version__ = "1.0.3"`).
 - `novel_shop/icon.png` / `novel_shop/icon.ico` — the "Ns" tile: a
   white rounded square with black capital + lowercase letters.
   The .ico holds 16, 32, 48, and 256px versions for the taskbar and
