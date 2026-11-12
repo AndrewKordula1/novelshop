@@ -32,10 +32,8 @@ chrome, near-black text, and the same blue accent.
 
 It is one style sheet, applied to the whole application. The
 editor's font and the entity highlight colors are separate
-preferences and are not touched by the theme. The caption buttons
-are not in this sheet either — they are drawn by Qt (see
-frameless.py) and carry their own sheet, so they match in both
-themes.
+preferences and are not touched by the theme. The window frame
+and its minimize/maximize/close buttons are drawn by the OS.
 """
 
 from pathlib import Path
@@ -110,11 +108,9 @@ _DOWN_ARROW_PATH = _image_path("down_arrow.png")
 _CLOSE_PATH = _image_path("close.png")
 
 # The window's corner radius. Just enough to take the sharp
-# square tip off (2px) — a larger radius clipped the File menu
-# and the caption buttons. The style sheet draws the background
-# with this radius, so the corners are anti-aliased — smooth,
-# not pixelated. A maximized window gets a radius of 0 (square
-# corners, it fills the screen).
+# square tip off (2px). The style sheet draws the background
+# with this radius, so the menu bar's top corners and the status
+# bar's bottom corners are anti-aliased — smooth, not pixelated.
 DEFAULT_CORNER_RADIUS = 2
 
 
@@ -129,12 +125,8 @@ def novelshop_stylesheet(
     """A Novelshop theme's style sheet, with the window's corner radius.
 
     The radius rounds the main window's background, the menu bar's
-    top corners, and the status bar's bottom corners; the window
-    has to be translucent (WA_TranslucentBackground) for the
-    rounded corners to show the desktop behind them. The caption
-    buttons (minimize, maximize, close, on the menu bar's right)
-    are styled here too: transparent until hovered, the close one
-    turning Windows red.
+    top corners, and the status bar's bottom corners. The window
+    frame itself is drawn by the OS.
     """
     p = _PALETTES.get(theme, _LIGHT)
     return f"""
@@ -163,39 +155,6 @@ QMenuBar::item:pressed {{
 }}
 QMenuBar::item:disabled {{
     color: {p["text_disabled"]};
-}}
-#titleBarLabel {{
-    color: {p["text_muted"]};
-}}
-#captionMinButton, #captionMaxButton, #captionRestoreButton {{
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    min-height: 38px;
-    color: {p["text"]};
-}}
-#captionMinButton:hover, #captionMaxButton:hover, #captionRestoreButton:hover {{
-    background-color: {p["input"]};
-}}
-#captionMinButton:pressed, #captionMaxButton:pressed, #captionRestoreButton:pressed {{
-    background-color: {p["bg"]};
-}}
-#captionCloseButton {{
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
-    min-height: 38px;
-    color: {p["text"]};
-}}
-#captionCloseButton:hover {{
-    background-color: #e81123;
-    color: white;
-}}
-#captionCloseButton:pressed {{
-    background-color: #c50f1f;
-    color: white;
 }}
 QMenu {{
     background-color: {p["panel"]};
